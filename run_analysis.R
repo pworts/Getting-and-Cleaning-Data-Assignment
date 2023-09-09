@@ -112,7 +112,18 @@ avg_sd_df = data.frame(
 
 View(avg_sd_df)
 
-#Prepare to export assignment for upload
-write.table(avg_sd_df, file = "avg_sd_df", sep = "\t", row.names = FALSE)
+#Create Tidy Data
+averages_data = combined_data %>%
+        group_by(subject, activity) %>%
+        summarise(across(where(is.numeric), mean, na.rm = TRUE))
 
+# View the resulting data frame
+head(averages_data)
+
+#Prepare to export assignment for upload
+write.table(averages_data, file = "subject_activity_means", sep = "\t", row.names = FALSE)
+
+#Create a codebook
+
+saveRDS(combined_data, "combined_data.rds")
 
